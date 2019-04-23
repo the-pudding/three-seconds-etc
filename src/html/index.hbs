@@ -21,37 +21,37 @@
 	{{> base/header 'sticky'}}
 
 	<main id='content'>
-
-		{{> story/intro }}
-
-		<section id='player'>
-			<div class='player__slide'>
-				{{!-- <video src='assets/videos/a.mp4'></video>
-				<video src='assets/videos/b.mp4'></video>
-				<video src='assets/videos/c.mp4'></video>
-				<video src='assets/videos/d.mp4'></video> --}}
-				<video src='assets/videos/0.mp4'></video>
-				<video src='assets/videos/1.mp4'></video>
-				<video src='assets/videos/2.mp4'></video>
-				<video src='assets/videos/3.mp4'></video>
-			</div>
-			<div class='player__controls'>
-				<button class='button--prev'><img inline src='chevron-left.svg'></button>
-				<button class='button--next'><img inline src='chevron-right.svg'></button>
-			</div>
-		</section>
-
-
+		{{> story/intro}}
 		<section id='story' class='prose'>
 			{{#each doc.story}}
 			<p>{{{value}}}</p>
 			{{/each}}
 		</section>
 
+		<figure>
+			<video></video>
+			<figcaption></figcaption>
+		</figure>
+		{{!-- <section id='player'>
+			<div class='player__slide'>
+				<video muted src='assets/videos/0.mp4'></video>
+				<video muted src='assets/videos/1.mp4'></video>
+				<video muted src='assets/videos/2.mp4'></video>
+				<video muted src='assets/videos/3.mp4'></video>
+			</div>
+			<div class='player__controls'>
+				<button class='button--prev'><img inline src='chevron-left.svg'></button>
+				<button class='button--next'><img inline src='chevron-right.svg'></button>
+			</div>
+		</section> --}}
+
+
+
+
 		<section id='credits' class='prose'>
 			<p class='credits__byline'>A story by
 				<a href='{{meta.author.url}}' target='_blank'>{{meta.author.name}}</a> and <a href='{{meta.author2.url}}'
-					target='_blank'>{{meta.author2.name}}</a>.
+					target='_blank'>{{meta.author2.name}}</a>. It was published in April, 2019.
 			</p>
 		</section>
 

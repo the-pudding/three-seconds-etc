@@ -27,6 +27,14 @@ function resize() {
   $video.style('width', `${videoW}px`).style('height', `${videoH}px`);
 }
 
+function handleSlideEnd() {
+  if (playing !== index) {
+    toggle('stop');
+    playing = index;
+    toggle('play');
+  }
+}
+
 function handleSlide(dir = 0) {
   index += dir;
   index = Math.min(Math.max(0, index), NUM_VIDEOS);
@@ -54,14 +62,6 @@ function toggle(state) {
   }
 }
 
-function handleSlideEnd() {
-  if (playing !== index) {
-    toggle('stop');
-    playing = index;
-    toggle('play');
-  }
-}
-
 function setupEvents() {
   $prev.on('click', () => handleSlide(-1));
   $next.on('click', () => handleSlide(1));
@@ -73,8 +73,8 @@ function setupEvents() {
 
 function init() {
   resize();
-  handleSlide();
-  setupEvents();
+  // handleSlide();
+  // setupEvents();
 }
 
 export default { init, resize };
