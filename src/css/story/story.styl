@@ -11,6 +11,35 @@ main
 section
 	padding 2rem 1rem
 
+figure
+	max-width 560px
+	margin 0 auto
+	position relative
+	
+	video
+		display block
+		margin 0 auto
+		cursor pointer
+
+	button
+		position absolute
+		top 50%
+		left 50%
+		width 20%
+		height 20%
+		background transparent
+		line-height 1
+		transform translate(-50%, -50%)
+		&.is-hidden
+			hidden()
+	svg
+		display block
+		width 100%
+		height 100%
+		polygon, circle
+		stroke-width 1px
+		fill $bg
+
 #story
 	margin-top 6rem
 

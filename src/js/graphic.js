@@ -1,78 +1,56 @@
 /* global d3 */
-import transitionEvent from './utils/transition-event';
+const $main = d3.select('main');
+const $figure = $main.select('figure');
+const $video = $figure.select('video');
+const $figcaption = $figure.select('figcaption');
+const $button = $figure.select('button');
 
-const $player = d3.select('#player');
-const $slide = $player.select('.player__slide');
-const $video = $slide.selectAll('video');
-const $prev = $player.select('.button--prev');
-const $next = $player.select('.button--next');
+const THRESH = 0.75;
 
-const NUM_VIDEOS = $video.size();
-const ASPECT = 1080 / 1080;
+const ASPECT = {
+  square: 1080 / 1080,
+  vertical: 1080 / 1920,
+};
 
-let videoW = 0;
-let videoH = 0;
-let index = 0;
-let playing = null;
+let size = null;
 
-function prefix(p) {
-  return [p, `webkit-${p}`, `ms-${p}`];
-}
+const playing = null;
 
 function resize() {
-  videoW = $player.node().offsetWidth;
-  videoH = videoW / ASPECT;
-  const slideW = $video.size() * videoW;
-  $slide.style('width', `${slideW}px`);
-  $video.style('width', `${videoW}px`).style('height', `${videoH}px`);
-}
+  const w = $main.node().offsetWidth;
+  const h = window.innerHeight;
+  const ratio = w / h;
+  const diffS = Math.abs(ASPECT.square - ratio);
+  const diffV = Math.abs(ASPECT.vertical - ratio);
+  size = diffS < diffV ? 'square' : 'vertical';
+  $video.attr('src', `assets/videos/${size}.mp4`);
 
-function handleSlideEnd() {
-  if (playing !== index) {
-    toggle('stop');
-    playing = index;
-    toggle('play');
+  let vw = $figure.node().offsetWidth;
+  let vh = vw / ASPECT[size];
+  if (vh > h * THRESH) {
+    vh = h * THRESH;
+    vw = vh * ASPECT[size];
   }
+
+  $video.style('width', `${vw}px`).style('height', `${vh}px`);
+  // videoW = $player.node().offsetWidth;
+  // videoH = videoW / ASPECT;
+  // const slideW = $video.size() * videoW;
+  // $slide.style('width', `${slideW}px`);
+  // $video.style('width', `${videoW}px`).style('height', `${videoH}px`);
 }
 
-function handleSlide(dir = 0) {
-  index += dir;
-  index = Math.min(Math.max(0, index), NUM_VIDEOS);
-
-  const x = -videoW * index;
-
-  $video.classed('is-active', (d, i) => i === index);
-
-  const prefixes = prefix('transform');
-  prefixes.forEach(pre => {
-    const transform = `translate(${x}px, 0)`;
-    $slide.node().style[pre] = transform;
-  });
-
-  $prev.property('disabled', index === 0);
-  $next.property('disabled', index >= NUM_VIDEOS - 1);
-  handleSlideEnd();
-}
-
-function toggle(state) {
-  if (playing !== null) {
-    const videoEl = $video.filter((d, i) => i === playing).node();
-    if (state === 'play') videoEl.play();
-    else if (state === 'stop') videoEl.pause();
-  }
-}
-
-function setupEvents() {
-  $prev.on('click', () => handleSlide(-1));
-  $next.on('click', () => handleSlide(1));
-  // $slide.on(transitionEvent, handleSlideEnd);
-  $video.each((d, i, n) => {
-    n[i].addEventListener('ended', () => handleSlide(1));
-  });
+function handleToggle() {
+  $video.node().play();
+  const hidden = $button.classed('is-hidden');
+  $button.classed('is-hidden', !hidden);
+  if (hidden) $video.node().pause();
+  else $video.node().play();
 }
 
 function init() {
   resize();
+  $video.on('click', handleToggle);
   // handleSlide();
   // setupEvents();
 }
