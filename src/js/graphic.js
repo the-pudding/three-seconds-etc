@@ -8,7 +8,10 @@ const $prev = $player.select('.button--prev');
 const $next = $player.select('.button--next');
 
 const NUM_VIDEOS = $video.size();
+const ASPECT = 1080 / 1080;
+
 let videoW = 0;
+let videoH = 0;
 let index = 0;
 let playing = null;
 
@@ -18,9 +21,10 @@ function prefix(p) {
 
 function resize() {
   videoW = $player.node().offsetWidth;
+  videoH = videoW / ASPECT;
   const slideW = $video.size() * videoW;
   $slide.style('width', `${slideW}px`);
-  $video.style('width', `${videoW}px`);
+  $video.style('width', `${videoW}px`).style('height', `${videoH}px`);
 }
 
 function handleSlide(dir = 0) {
@@ -39,6 +43,7 @@ function handleSlide(dir = 0) {
 
   $prev.property('disabled', index === 0);
   $next.property('disabled', index >= NUM_VIDEOS - 1);
+  handleSlideEnd();
 }
 
 function toggle(state) {
@@ -60,7 +65,10 @@ function handleSlideEnd() {
 function setupEvents() {
   $prev.on('click', () => handleSlide(-1));
   $next.on('click', () => handleSlide(1));
-  $slide.on(transitionEvent, handleSlideEnd);
+  // $slide.on(transitionEvent, handleSlideEnd);
+  $video.each((d, i, n) => {
+    n[i].addEventListener('ended', () => handleSlide(1));
+  });
 }
 
 function init() {
