@@ -24,7 +24,35 @@
 
 		{{> story/intro }}
 
+		<section id='player'>
+			<div class='player__slide'>
+				<video src='assets/videos/a.mp4'></video>
+				<video src='assets/videos/b.mp4'></video>
+				<video src='assets/videos/c.mp4'></video>
+				<video src='assets/videos/d.mp4'></video>
+			</div>
+			<div class='player__controls'>
+				<button class='button--prev'><img inline src='chevron-left.svg'></button>
+				<button class='button--next'><img inline src='chevron-right.svg'></button>
+			</div>
+		</section>
+
+
+		<section id='story' class='prose'>
+			{{#each doc.story}}
+			<p>{{{value}}}</p>
+			{{/each}}
+		</section>
+
+		<section id='credits' class='prose'>
+			<p class='credits__byline'>A story by
+				<a href='{{meta.author.url}}' target='_blank'>{{meta.author.name}}</a> and <a href='{{meta.author2.url}}'
+					target='_blank'>{{meta.author2.name}}</a>.
+			</p>
+		</section>
+
 		<section id='method' class='prose'>
+			<p><strong>Data and Methods</strong></p>
 			{{#each doc.method}}
 			<p>{{{value}}}</p>
 			{{/each}}

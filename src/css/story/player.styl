@@ -1,0 +1,53 @@
+#player
+	position relative
+	width 100%
+	max-width 480px
+	min-height 480px
+	margin 0 auto
+
+	.player__slide
+		display flex
+		margin-left 50%
+		transition transform 0.5s ease-in-out
+
+	video
+		border 4px solid $bg
+		display block
+		opacity 0.25
+		transform translateX(-50%)
+		transition opacity 0.25s ease-in-out
+		&.is-active
+			opacity 1
+		
+	
+	.player__controls
+		position absolute
+		bottom 5%
+		width 100%
+		display flex
+		justify-content space-between
+		+mq('bp-3')
+			bottom 50%
+			transform translateY(50%)
+
+	button
+		width 3rem
+		height 3rem
+		border-radius 50%
+		box-shadow 0 0 3px $fg
+		&:first-of-type
+			transform translateX(25%)
+			+mq('bp-3')
+				transform translateX(-125%)
+		&:last-of-type
+			transform translateX(-25%)
+			+mq('bp-3')
+				transform translateX(125%)
+		&:disabled
+			opacity 0.33
+			cursor not-allowed
+		svg
+			text-align center
+			display inline-block
+			vertical-align middle
+		
