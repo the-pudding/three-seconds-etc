@@ -6,10 +6,8 @@ body
 main
 	overflow hidden
 
-// #credits
-
-section
-	padding 2rem 1rem
+	section
+		margin 4rem auto
 
 figure
 	max-width 560px
@@ -22,6 +20,7 @@ figure
 		cursor pointer
 
 	button
+		pointer-events none
 		position absolute
 		top 50%
 		left 50%
@@ -41,7 +40,13 @@ figure
 		fill $bg
 
 #story
-	margin-top 6rem
+	margin-top 8rem
+	max-width 50rem
+	.prose
+		max-width 100%
+	p 
+		set-type-size(x-large, true)
+		text-align justify
 
 #method
 	strong

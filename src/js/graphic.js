@@ -1,4 +1,6 @@
 /* global d3 */
+import narration from './narration';
+
 const $main = d3.select('main');
 const $figure = $main.select('figure');
 const $video = $figure.select('video');
@@ -51,6 +53,7 @@ function handleToggle() {
 function init() {
   resize();
   $video.on('click', handleToggle);
+  console.log(narration);
   // handleSlide();
   // setupEvents();
 }

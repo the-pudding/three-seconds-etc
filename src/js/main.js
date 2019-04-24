@@ -1,5 +1,6 @@
 /* global d3 */
 import debounce from 'lodash.debounce';
+import etc from './utils/etc';
 import isMobile from './utils/is-mobile';
 import graphic from './graphic';
 import footer from './footer';
@@ -40,6 +41,7 @@ function init() {
   // kick off graphic code
   graphic.init();
   // footer.init();
+  etc();
 }
 
 init();

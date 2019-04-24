@@ -4,7 +4,7 @@ header
 	top 0
 	left 0
 	width 100%
-	background-color $white
+	background-color transparent
 	font-family $sans
 
 	a.logo
@@ -19,10 +19,6 @@ header
 			width 100%
 	
 header.is-sticky
-	position fixed
-	transform translate3d(0,0,0)
-	background-color $white
-	box-shadow 0 0 7px 1px $gray-light
 	height 3rem
 	display flex
 	align-items center
@@ -31,10 +27,6 @@ header.is-sticky
 		margin 0 auto
 	
 	.header__toggle
-		position fixed
-		transform translate3d(0,0,0)
-		top 0
-		right 0
 		padding 0.75rem
 		cursor pointer
 		line-height 1
@@ -122,8 +114,7 @@ header.is-sticky
 				margin-right 0.25em
 			&:last-of-type:after
 				content '.'
-		// li
-		// 	set
+
 
 // dark color version
 header.is-sticky.is-dark
@@ -154,4 +145,20 @@ header.is-sticky.is-dark
 			svg
 				stroke $off-black
 
-
+.header__etc-tagline
+	position absolute
+	top 3rem
+	left 50%
+	transform translate(-50%, 0)
+	margin 0
+	set-type-size(root, true)
+	line-height 1.4
+	max-width 20rem
+	background-color $white
+	box-shadow 0 0 1px $gray-light
+	padding 0.5rem
+	pointer-events none
+	visibility hidden
+	&.is-visible
+		visibility visible
+		pointer-events auto
