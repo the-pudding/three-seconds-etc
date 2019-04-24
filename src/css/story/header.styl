@@ -22,11 +22,19 @@ header.is-sticky
 	height 3rem
 	display flex
 	align-items center
+	// justify-content space-between
 	
 	a.logo
-		margin 0 auto
+		margin 0
+		margin-left 1rem
+		+mq('bp-3')
+			margin-left 0
+			margin 0 auto
 	
 	.header__toggle
+		position absolute
+		top 0
+		right 0
 		padding 0.75rem
 		cursor pointer
 		line-height 1

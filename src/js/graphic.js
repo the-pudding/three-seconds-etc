@@ -7,7 +7,9 @@ const $video = $figure.select('video');
 const $figcaption = $figure.select('figcaption');
 const $button = $figure.select('button');
 
-const THRESH = 0.75;
+const videoEl = $video.node();
+
+const THRESH = 0.9;
 
 const ASPECT = {
   square: 1080 / 1080,
@@ -16,7 +18,13 @@ const ASPECT = {
 
 let size = null;
 
-const playing = null;
+function handleToggle() {
+  videoEl.play();
+  const hidden = $button.classed('is-hidden');
+  $button.classed('is-hidden', !hidden);
+  if (hidden) videoEl.pause();
+  else videoEl.play();
+}
 
 function resize() {
   const w = $main.node().offsetWidth;
@@ -25,7 +33,17 @@ function resize() {
   const diffS = Math.abs(ASPECT.square - ratio);
   const diffV = Math.abs(ASPECT.vertical - ratio);
   size = diffS < diffV ? 'square' : 'vertical';
-  $video.attr('src', `assets/videos/${size}.mp4`);
+
+  const src = $video.attr('src');
+  const newSrc = `assets/videos/${size}.mp4`;
+  if (src !== newSrc) {
+    $video.attr('src', newSrc);
+    videoEl.load();
+    videoEl.addEventListener('ended', () => {
+      videoEl.currentTime = 0;
+      handleToggle();
+    });
+  }
 
   let vw = $figure.node().offsetWidth;
   let vh = vw / ASPECT[size];
@@ -40,14 +58,6 @@ function resize() {
   // const slideW = $video.size() * videoW;
   // $slide.style('width', `${slideW}px`);
   // $video.style('width', `${videoW}px`).style('height', `${videoH}px`);
-}
-
-function handleToggle() {
-  $video.node().play();
-  const hidden = $button.classed('is-hidden');
-  $button.classed('is-hidden', !hidden);
-  if (hidden) $video.node().pause();
-  else $video.node().play();
 }
 
 function init() {
