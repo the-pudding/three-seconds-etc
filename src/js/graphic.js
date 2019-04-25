@@ -5,25 +5,52 @@ const $main = d3.select('main');
 const $figure = $main.select('figure');
 const $video = $figure.select('video');
 const $figcaption = $figure.select('figcaption');
-const $button = $figure.select('button');
+const $options = $figure.select('.figure__options');
+const $buttonPlay = $figure.select('.button--play');
+const $buttonVolume = $figure.select('.button--volume');
+const $buttonCaption = $figure.select('.button--caption');
 
 const videoEl = $video.node();
 
-const THRESH = 0.9;
+const THRESH = 0.8;
 
 const ASPECT = {
   square: 1080 / 1080,
   vertical: 1080 / 1920,
 };
 
+let captionData = [];
 let size = null;
+let currentText = '';
 
 function handleToggle() {
   videoEl.play();
-  const hidden = $button.classed('is-hidden');
-  $button.classed('is-hidden', !hidden);
+  const hidden = $buttonPlay.classed('is-hidden');
+  $buttonPlay.classed('is-hidden', !hidden);
   if (hidden) videoEl.pause();
   else videoEl.play();
+}
+
+function handleCaption() {
+  const on = $buttonCaption.classed('is-on');
+  $buttonCaption.classed('is-on', !on);
+  $figcaption.classed('is-visible', !on);
+}
+
+function handleVolume() {
+  const on = $buttonVolume.classed('is-on');
+  $buttonVolume.classed('is-on', !on);
+  videoEl.voume = on ? 0 : 1;
+}
+
+function handleProgress() {
+  const t = videoEl.currentTime;
+  const match = captionData.find(d => t >= d.timestamp);
+  const text = match ? match.narration : '';
+  if (text !== currentText) {
+    currentText = text;
+    $figcaption.text(text);
+  }
 }
 
 function resize() {
@@ -42,30 +69,35 @@ function resize() {
     videoEl.addEventListener('ended', () => {
       videoEl.currentTime = 0;
       handleToggle();
+      $figcaption.text('');
     });
+    videoEl.addEventListener('progress', handleProgress);
   }
 
-  let vw = $figure.node().offsetWidth;
-  let vh = vw / ASPECT[size];
+  const fw = $figure.node().offsetWidth;
+  let vw = fw;
+  let vh = fw / ASPECT[size];
   if (vh > h * THRESH) {
     vh = h * THRESH;
     vw = vh * ASPECT[size];
   }
 
   $video.style('width', `${vw}px`).style('height', `${vh}px`);
-  // videoW = $player.node().offsetWidth;
-  // videoH = videoW / ASPECT;
-  // const slideW = $video.size() * videoW;
-  // $slide.style('width', `${slideW}px`);
-  // $video.style('width', `${videoW}px`).style('height', `${videoH}px`);
+  $figcaption.style('width', `${vw}px`);
+  $options.style('right', `${(fw - vw) / 2}px`);
 }
 
 function init() {
+  captionData = narration.section.map(d => ({
+    ...d,
+    timestamp: +d.timestamp,
+  }));
+
+  captionData.reverse();
   resize();
   $video.on('click', handleToggle);
-  console.log(narration);
-  // handleSlide();
-  // setupEvents();
+  $buttonVolume.on('click', handleVolume);
+  $buttonCaption.on('click', handleCaption);
 }
 
 export default { init, resize };

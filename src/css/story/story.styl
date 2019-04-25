@@ -15,32 +15,94 @@ figure
 	margin 0 auto
 	position relative
 	
+	figcaption
+		margin 1rem auto
+		min-height 6rem
+		set-type-size(x-small, false)
+		line-height 1.4
+		visibility hidden
+		+mq('bp-5')
+			set-type-size(small, true)
+			height 4rem
+		&.is-visible
+			visibility visible
+
 	video
 		background-color $yellow
 		display block
 		margin 0 auto
 		cursor pointer
 
-	button
+	.button--play
 		pointer-events none
 		position absolute
-		top 50%
+		top calc(50% - 4rem)
 		left 50%
 		width 20%
 		height 20%
 		background transparent
 		line-height 1
 		transform translate(-50%, -50%)
+		+mq('bp-5')
+			top calc(50% - 4rem)
 		&.is-hidden
 			hidden()
+
+		svg
+			display block
+			width 100%
+			height 100%
+			polygon, circle
+				stroke-width 1px
+				fill $fg
+				stroke $bg
+			polygon
+				fill $bg
+			circle
+				stroke none
+
+.figure__options
+	display flex
+	position absolute
+	right 0
+	transform translate(-10%, -115%)
+	+mq('bp-5')
+		bottom 0
+		flex-direction column
+		transform translate(125%, -100%)
+	button
+		background-color $fg
+		color $bg
+		text-transform uppercase
+		font-weight 600
+		width 3rem
+		height 3rem
+		border-radius 50%
+		set-type-size(medium, false)
+		font-family $sans-display
+		line-height 1
+		opacity 0.5
+		&.is-on
+			opacity 1
+		&:first-of-type
+			margin-right 0.5rem
+			+mq('bp-5')
+				margin-bottom 0.5rem
+				margin-right 0
+
+		
 	svg
-		display block
-		width 100%
-		height 100%
-		polygon, circle
-		stroke-width 1px
+		width 1.5rem
+		height 1.5rem
+		display inline-block
+		vertical-align center
+		line-height 1
+	polygon
 		fill $bg
-		stroke $fg
+	path
+		stroke $bg
+		fill transparent
+			
 
 #intro
 	margin-top 8rem
