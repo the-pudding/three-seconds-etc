@@ -1,10 +1,10 @@
 /* CUSTOM STORY STYLE */
 body
 	font-family $sans
-	background-color $off-white
+	background-color $bg
 
 main
-	overflow hidden
+	padding 0 1rem
 
 	section
 		margin 4rem auto
@@ -42,19 +42,29 @@ figure
 		fill $bg
 		stroke $fg
 
-#story
+#intro
 	margin-top 8rem
-	max-width 50rem
+	// max-width 50rem
 	.prose
-		max-width 100%
+		// max-width 100%
 	p 
 		set-type-size(medium, true)
 		+mq('bp-3')
 			set-type-size(x-large, true)
-			text-align justify
+			// text-align justify
 
-#method
+#takeaways, #method
 	strong
 		font-family $sans-display
-	p
-		// set-type-size(root, true)
+
+#takeaways li
+	list-style-type disc
+	set-type-size(root, true)
+	+mq('bp-3')
+		set-type-size(medium, true)
+	margin-bottom 0.5rem
+
+
+.prose
+	max-width $max-video-width
+	padding 0

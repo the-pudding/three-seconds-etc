@@ -21,9 +21,9 @@
 	{{> base/header 'sticky'}}
 
 	<main id='content'>
-		<section id='story'>
+		<section id='intro'>
 			<div class='prose'>
-				{{#each doc.story}}
+				{{#each doc.intro}}
 				<p>{{{value}}}</p>
 				{{/each}}
 			</div>
@@ -34,6 +34,19 @@
 			<figcaption></figcaption>
 			<button><img inline src='play-circle.svg'></button>
 		</figure>
+
+		<section id='takeaways'>
+			<div class='prose'>
+				<p><strong>{{doc.takeawaysHed}}</strong></p>
+				<ul>
+					{{#each doc.takeaways}}
+					<li>
+						{{{this}}}
+					</li>
+					{{/each}}
+				</ul>
+			</div>
+		</section>
 
 		<section id='credits'>
 			<div class='prose'>
