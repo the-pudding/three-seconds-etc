@@ -16,8 +16,9 @@ figure
 	position relative
 	
 	figcaption
-		margin 1rem auto
+		margin 0 auto
 		min-height 6rem
+		padding-top 1rem
 		set-type-size(x-small, false)
 		line-height 1.4
 		visibility hidden
@@ -36,7 +37,7 @@ figure
 	.button--play
 		pointer-events none
 		position absolute
-		top calc(50% - 4rem)
+		top calc(50% - 3rem)
 		left 50%
 		width 20%
 		height 20%
@@ -44,7 +45,7 @@ figure
 		line-height 1
 		transform translate(-50%, -50%)
 		+mq('bp-5')
-			top calc(50% - 4rem)
+			// top calc(50% - 3rem)
 		&.is-hidden
 			hidden()
 
@@ -65,7 +66,7 @@ figure
 	display flex
 	position absolute
 	right 0
-	transform translate(-10%, -115%)
+	// transform translate(-10%, -115%)
 	+mq('bp-5')
 		bottom 0
 		flex-direction column
@@ -87,7 +88,7 @@ figure
 		&:first-of-type
 			margin-right 0.5rem
 			+mq('bp-5')
-				margin-bottom 0.5rem
+				transform translateY(-0.5rem)
 				margin-right 0
 
 		

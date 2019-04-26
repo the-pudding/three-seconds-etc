@@ -1,5 +1,6 @@
 /* global d3 */
 import narration from './narration';
+import tracker from './utils/tracker';
 
 const $main = d3.select('main');
 const $figure = $main.select('figure');
@@ -22,6 +23,9 @@ const ASPECT = {
 let captionData = [];
 let size = null;
 let currentText = '';
+let ticker = null;
+
+const tracked = [];
 
 function handleToggle() {
   videoEl.play();
@@ -40,16 +44,25 @@ function handleCaption() {
 function handleVolume() {
   const on = $buttonVolume.classed('is-on');
   $buttonVolume.classed('is-on', !on);
-  videoEl.voume = on ? 0 : 1;
+  videoEl.volume = on ? 0 : 1;
 }
 
-function handleProgress() {
+function handleTick() {
   const t = videoEl.currentTime;
-  const match = captionData.find(d => t >= d.timestamp);
+  const match = captionData.find(d => t >= d.start && t <= d.end);
   const text = match ? match.narration : '';
   if (text !== currentText) {
     currentText = text;
     $figcaption.text(text);
+  }
+
+  let milestone = 0;
+  if (t > 0) milestone = 1;
+  if (t / 10 >= 1) milestone = Math.floor(t / 10) * 10;
+
+  if (milestone && !tracked.includes(milestone)) {
+    tracked.push(milestone);
+    tracker.send({ category: 'milestone', action: milestone, once: true });
   }
 }
 
@@ -71,7 +84,13 @@ function resize() {
       handleToggle();
       $figcaption.text('');
     });
-    videoEl.addEventListener('progress', handleProgress);
+
+    if (ticker) {
+      ticker.stop();
+      videoEl.currentTime = 0;
+      handleToggle();
+    }
+    ticker = d3.timer(handleTick);
   }
 
   const fw = $figure.node().offsetWidth;
@@ -90,7 +109,8 @@ function resize() {
 function init() {
   captionData = narration.section.map(d => ({
     ...d,
-    timestamp: +d.timestamp,
+    start: +d.start,
+    end: +d.end,
   }));
 
   captionData.reverse();
