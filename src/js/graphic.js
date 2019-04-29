@@ -13,7 +13,9 @@ const $buttonCaption = $figure.select('.button--caption');
 
 const videoEl = $video.node();
 
+const MAX_W = 560;
 const THRESH = 0.8;
+const DPR = Math.min(window.devicePixelRatio, 2);
 
 const ASPECT = {
   square: 1080 / 1080,
@@ -72,10 +74,25 @@ function resize() {
   const ratio = w / h;
   const diffS = Math.abs(ASPECT.square - ratio);
   const diffV = Math.abs(ASPECT.vertical - ratio);
+
   size = diffS < diffV ? 'square' : 'vertical';
 
+  const fw = $figure.node().offsetWidth;
+  let vw = fw;
+  let vh = fw / ASPECT[size];
+  if (vh > h * THRESH) {
+    vh = h * THRESH;
+    vw = vh * ASPECT[size];
+  }
+
+  const suffix = vw * DPR > MAX_W * 1.5 ? '' : '--small';
+
+  $video.style('width', `${vw}px`).style('height', `${vh}px`);
+  $figcaption.style('width', `${vw}px`);
+  $options.style('right', `${(fw - vw) / 2}px`);
+
   const src = $video.attr('src');
-  const newSrc = `assets/videos/${size}.mp4`;
+  const newSrc = `assets/videos/${size}${suffix}.mp4`;
   if (src !== newSrc) {
     $video.attr('src', newSrc);
     videoEl.load();
@@ -92,18 +109,6 @@ function resize() {
     }
     ticker = d3.timer(handleTick);
   }
-
-  const fw = $figure.node().offsetWidth;
-  let vw = fw;
-  let vh = fw / ASPECT[size];
-  if (vh > h * THRESH) {
-    vh = h * THRESH;
-    vw = vh * ASPECT[size];
-  }
-
-  $video.style('width', `${vw}px`).style('height', `${vh}px`);
-  $figcaption.style('width', `${vw}px`);
-  $options.style('right', `${(fw - vw) / 2}px`);
 }
 
 function init() {
