@@ -40,7 +40,7 @@ function init() {
   setupStickyHeader();
   // kick off graphic code
   graphic.init();
-  // footer.init();
+  footer.init();
   etc();
 }
 

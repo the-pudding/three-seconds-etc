@@ -33,8 +33,11 @@ figure
 		display block
 		margin 0 auto
 		cursor pointer
+		&:hover
+			& ~ .button--pause
+				opacity 0.33
 
-	.button--play
+	.button--play, .button--pause
 		pointer-events none
 		position absolute
 		top calc(50% - 3rem)
@@ -53,14 +56,18 @@ figure
 			display block
 			width 100%
 			height 100%
-			polygon, circle
-				stroke-width 1px
+			polygon, circle, line
 				fill $fg
 				stroke $bg
 			polygon
 				fill $bg
+				stroke-width 1px
 			circle
 				stroke none
+				stroke-width 1px
+	
+	.button--pause
+		opacity 0
 
 .figure__options
 	display flex

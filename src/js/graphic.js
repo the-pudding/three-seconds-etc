@@ -8,6 +8,7 @@ const $video = $figure.select('video');
 const $figcaption = $figure.select('figcaption');
 const $options = $figure.select('.figure__options');
 const $buttonPlay = $figure.select('.button--play');
+const $buttonPause = $figure.select('.button--pause');
 const $buttonVolume = $figure.select('.button--volume');
 const $buttonCaption = $figure.select('.button--caption');
 
@@ -23,18 +24,20 @@ const ASPECT = {
 };
 
 let captionData = [];
-let size = null;
 let currentText = '';
 let ticker = null;
+let canPlay = false;
 
 const tracked = [];
 
 function handleToggle() {
-  videoEl.play();
-  const hidden = $buttonPlay.classed('is-hidden');
-  $buttonPlay.classed('is-hidden', !hidden);
-  if (hidden) videoEl.pause();
-  else videoEl.play();
+  if (canPlay) {
+    const hidden = $buttonPlay.classed('is-hidden');
+    $buttonPlay.classed('is-hidden', !hidden);
+    $buttonPause.classed('is-hidden', hidden);
+    if (hidden) videoEl.pause();
+    else videoEl.play();
+  }
 }
 
 function handleCaption() {
@@ -68,14 +71,14 @@ function handleTick() {
   }
 }
 
-function resize() {
+function chooseVideo() {
   const w = $main.node().offsetWidth;
   const h = window.innerHeight;
   const ratio = w / h;
   const diffS = Math.abs(ASPECT.square - ratio);
   const diffV = Math.abs(ASPECT.vertical - ratio);
 
-  size = diffS < diffV ? 'square' : 'vertical';
+  const size = diffS < diffV ? 'square' : 'vertical';
 
   const fw = $figure.node().offsetWidth;
   let vw = fw;
@@ -91,25 +94,24 @@ function resize() {
   $figcaption.style('width', `${vw}px`);
   $options.style('right', `${(fw - vw) / 2}px`);
 
-  const src = $video.attr('src');
-  const newSrc = `assets/videos/${size}${suffix}.mp4`;
-  if (src !== newSrc) {
-    $video.attr('src', newSrc);
-    videoEl.load();
-    videoEl.addEventListener('ended', () => {
-      videoEl.currentTime = 0;
-      handleToggle();
-      $figcaption.text('');
-    });
+  videoEl.addEventListener('ended', () => {
+    videoEl.currentTime = 0;
+    handleToggle();
+    $figcaption.text('');
+  });
 
-    if (ticker) {
-      ticker.stop();
-      videoEl.currentTime = 0;
-      handleToggle();
-    }
-    ticker = d3.timer(handleTick);
-  }
+  videoEl.addEventListener('canplaythrough', () => {
+    canPlay = true;
+  });
+
+  const src = `assets/videos/${size}${suffix}.mp4`;
+  $video.attr('src', src);
+  videoEl.load();
+
+  ticker = d3.timer(handleTick);
 }
+
+function resize() {}
 
 function init() {
   captionData = narration.section.map(d => ({
@@ -119,7 +121,7 @@ function init() {
   }));
 
   captionData.reverse();
-  resize();
+  chooseVideo();
   $video.on('click', handleToggle);
   $buttonVolume.on('click', handleVolume);
   $buttonCaption.on('click', handleCaption);

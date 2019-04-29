@@ -1,10 +1,10 @@
 {
-	"title": "The NBA has a defensive three seconds problem",
+	"title": "The NBA has a Defensive Three Seconds Problem",
 	"description": "A micro-investigation of epic proportions.",
-	"url": "https://pudding.cool/04/three-seconds/",
+	"url": "https://pudding.cool/05/three-seconds/",
 	"keywords": "tk",
-	"imgFacebook": "https://pudding.cool/04/three-seconds/assets/social/social-facebook.jpg",
-	"imgTwitter": "https://pudding.cool/04/three-seconds/assets/social/social-twitter.jpg",
+	"imgFacebook": "https://pudding.cool/05/three-seconds/assets/social/social-facebook.jpg",
+	"imgTwitter": "https://pudding.cool/05/three-seconds/assets/social/social-twitter.jpg",
 	"author": {
 		"name": "Owen Phillips",
 		"url": "https://pudding.cool/author/owen-phillips",
@@ -15,7 +15,11 @@
 		"url": "https://pudding.cool/author/russell-goldenberg",
 		"twitterHandle": "@codenberg"
 	},
-	"analytics": "",
+	"author3": {
+		"name": "Jan Diehm",
+		"url": "https://pudding.cool/author/jan-diehm"
+	},
+	"analytics": "UA-90567923-1",
 	"etc": "The Pudding ETC is a place for small and experimental stories.",
 	"lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis neque sit amet sollicitudin vehicula. Maecenas fringilla mi non lacus mattis elementum. Curabitur dignissim faucibus justo."
 }
