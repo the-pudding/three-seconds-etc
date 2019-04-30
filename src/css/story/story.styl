@@ -34,6 +34,7 @@ figure
 		display block
 		margin 0 auto
 		cursor pointer
+		pointer-events auto
 		&:hover
 			+mq('bp-5')
 				& ~ .button--pause
@@ -95,7 +96,8 @@ figure
 		opacity 0.5
 		margin-right 0.5rem
 		&:hover
-			opacity 0.75
+			+mq('bp-5')
+				opacity 0.75
 		&.is-on
 			opacity 1
 		&:last-of-type
@@ -126,6 +128,7 @@ figure
 		fill transparent
 
 .figure__warning
+	pointer-events none
 	margin 0
 	position absolute
 	top 25%

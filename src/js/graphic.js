@@ -149,7 +149,8 @@ function init() {
 
   captionData.reverse();
   chooseVideo();
-  $video.on('click', handleToggle);
+
+  $video.on('click touchstart', handleToggle);
   $buttonVolume.on('click', handleVolume);
   $buttonCaption.on('click', handleCaption);
   $buttonRewind.on('click', handleRewind);
