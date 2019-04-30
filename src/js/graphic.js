@@ -30,6 +30,9 @@ let captionData = [];
 let currentText = '';
 let ticker = null;
 let canPlay = false;
+let size = null;
+let vw = 0;
+let vh = 0;
 
 const tracked = [];
 
@@ -88,6 +91,21 @@ function handleTick() {
   $time.text(`${min}:${sec}`);
 }
 
+function resize() {
+  const fw = $figure.node().offsetWidth;
+  const h = window.innerHeight;
+  vw = fw;
+  vh = fw / ASPECT[size];
+  if (vh > h * THRESH) {
+    vh = h * THRESH;
+    vw = vh * ASPECT[size];
+  }
+
+  $video.style('width', `${vw}px`).style('height', `${vh}px`);
+  $figcaption.style('width', `${vw}px`);
+  $options.style('right', `${(fw - vw) / 2}px`);
+}
+
 function chooseVideo() {
   const w = $main.node().offsetWidth;
   const h = window.innerHeight;
@@ -95,21 +113,11 @@ function chooseVideo() {
   const diffS = Math.abs(ASPECT.square - ratio);
   const diffV = Math.abs(ASPECT.vertical - ratio);
 
-  const size = diffS < diffV ? 'square' : 'vertical';
+  size = diffS < diffV ? 'square' : 'vertical';
 
-  const fw = $figure.node().offsetWidth;
-  let vw = fw;
-  let vh = fw / ASPECT[size];
-  if (vh > h * THRESH) {
-    vh = h * THRESH;
-    vw = vh * ASPECT[size];
-  }
+  resize();
 
   const suffix = vw * DPR > MAX_W * 1.5 ? '' : '--small';
-
-  $video.style('width', `${vw}px`).style('height', `${vh}px`);
-  $figcaption.style('width', `${vw}px`);
-  $options.style('right', `${(fw - vw) / 2}px`);
 
   videoEl.addEventListener('ended', () => {
     videoEl.currentTime = 0;
@@ -127,8 +135,6 @@ function chooseVideo() {
 
   ticker = d3.timer(handleTick);
 }
-
-function resize() {}
 
 function init() {
   captionData = narration.section.map(d => ({
