@@ -38,7 +38,6 @@ let vh = 0;
 const tracked = [];
 
 function handleToggle() {
-  console.log('toggle');
   $warning.remove();
   if (canPlay) {
     const hidden = $buttonPlay.classed('is-hidden');
