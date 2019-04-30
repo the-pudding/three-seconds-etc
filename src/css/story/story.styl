@@ -18,14 +18,14 @@ figure
 	figcaption
 		margin 0 auto
 		min-height 6rem
-		padding-top 3rem
+		transform translateY(3rem)
 		set-type-size(x-small, false)
 		line-height 1.4
 		visibility hidden
 		+mq('bp-5')
 			set-type-size(small, true)
 			height 4rem
-			padding-top 0.5rem
+			transform translateY(0.5rem)
 		&.is-visible
 			visibility visible
 
@@ -155,7 +155,7 @@ figure time
 	bottom 0
 	right 0.5rem
 	text-align right
-	set-type-size(small, false)
+	set-type-size(xx-small, false)
 	line-height 1
 	text-transform uppercase
 	font-family $mono
@@ -164,6 +164,8 @@ figure time
 	opacity 0.67
 	bottom 6rem
 	transform translateY(-0.5rem)
+	+mq('bp-5')
+		set-type-size(small, false)
 
 #intro
 	margin-top 8rem

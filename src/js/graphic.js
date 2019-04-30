@@ -1,6 +1,7 @@
 /* global d3 */
 import narration from './narration';
 import tracker from './utils/tracker';
+import isMobile from './utils/is-mobile';
 
 const $main = d3.select('main');
 const $figure = $main.select('figure');
@@ -37,6 +38,7 @@ let vh = 0;
 const tracked = [];
 
 function handleToggle() {
+  console.log('toggle');
   $warning.remove();
   if (canPlay) {
     const hidden = $buttonPlay.classed('is-hidden');
@@ -149,11 +151,11 @@ function init() {
 
   captionData.reverse();
   chooseVideo();
-
-  $video.on('click touchstart', handleToggle);
-  $buttonVolume.on('click', handleVolume);
-  $buttonCaption.on('click', handleCaption);
-  $buttonRewind.on('click', handleRewind);
+  const evt = isMobile.any() ? 'touchstart' : 'click';
+  $video.on(evt, handleToggle);
+  $buttonVolume.on(evt, handleVolume);
+  $buttonCaption.on(evt, handleCaption);
+  $buttonRewind.on(evt, handleRewind);
 }
 
 export default { init, resize };
