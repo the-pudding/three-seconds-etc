@@ -88,7 +88,8 @@ function handleTick() {
   const diff = dur - t;
   const min = d3.format('02')(Math.floor(diff / 60));
   const sec = d3.format('02')(Math.round(diff % 60));
-  $time.text(`${min}:${sec}`);
+  if (isNaN(diff)) $time.text('00:00');
+  else $time.text(`${min}:${sec}`);
 }
 
 function resize() {
@@ -101,9 +102,12 @@ function resize() {
     vw = vh * ASPECT[size];
   }
 
+  const right = (fw - vw) / 2;
+
   $video.style('width', `${vw}px`).style('height', `${vh}px`);
   $figcaption.style('width', `${vw}px`);
-  $options.style('right', `${(fw - vw) / 2}px`);
+  $options.style('right', `${right}px`);
+  $time.style('margin-right', `${right}px`);
 }
 
 function chooseVideo() {
