@@ -13,6 +13,7 @@ const $buttonVolume = $figure.select('.button--volume');
 const $buttonCaption = $figure.select('.button--caption');
 const $buttonRewind = $figure.select('.button--rewind');
 const $warning = $figure.select('.figure__warning');
+const $time = $figure.select('time');
 
 const videoEl = $video.node();
 
@@ -63,6 +64,7 @@ function handleVolume() {
 
 function handleTick() {
   const t = videoEl.currentTime;
+  const dur = videoEl.duration;
   const match = captionData.find(d => t >= d.start && t <= d.end);
   const text = match ? match.narration : '';
   if (text !== currentText) {
@@ -78,6 +80,12 @@ function handleTick() {
     tracked.push(milestone);
     tracker.send({ category: 'milestone', action: milestone, once: true });
   }
+
+  // update time
+  const diff = dur - t;
+  const min = d3.format('02')(Math.floor(diff / 60));
+  const sec = d3.format('02')(Math.round(diff % 60));
+  $time.text(`${min}:${sec}`);
 }
 
 function chooseVideo() {
