@@ -73,11 +73,12 @@ figure
 	display flex
 	position absolute
 	right 0
-	// transform translate(-10%, -115%)
+	bottom 0
+	transform translate(0, -2.5rem)
 	+mq('bp-5')
-		bottom 0
 		flex-direction column
-		transform translate(125%, -100%)
+		bottom 4rem
+		transform translate(125%, -2rem)
 	button
 		background-color $fg
 		color $bg
@@ -90,15 +91,19 @@ figure
 		font-family $sans-display
 		line-height 1
 		opacity 0.5
+		margin-right 0.5rem
+		&:hover
+			opacity 0.75
 		&.is-on
 			opacity 1
-		&:first-of-type
-			margin-right 0.5rem
+		&:last-of-type
+			margin-right 0
 			+mq('bp-5')
-				transform translateY(-0.5rem)
+				margin-bottom 0
 				margin-right 0
+		+mq('bp-5')
+			margin-bottom 0.5rem
 
-		
 	svg
 		width 1.5rem
 		height 1.5rem
@@ -110,7 +115,26 @@ figure
 	path
 		stroke $bg
 		fill transparent
-			
+
+.figure__warning
+	margin 0
+	position absolute
+	top 25%
+	left 50%
+	transform translate(-50%, -50%)
+	text-align center
+	set-type-size(small, false)
+	line-height 1
+	text-transform uppercase
+	font-weight 600
+	letter-spacing 0.02em
+	color $fg
+	svg
+		vertical-align middle
+		height 1.25em
+		transform translateY(-0.25em)
+		path 
+			stroke-width 2px
 
 #intro
 	margin-top 8rem

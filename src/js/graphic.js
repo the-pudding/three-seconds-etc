@@ -11,6 +11,8 @@ const $buttonPlay = $figure.select('.button--play');
 const $buttonPause = $figure.select('.button--pause');
 const $buttonVolume = $figure.select('.button--volume');
 const $buttonCaption = $figure.select('.button--caption');
+const $buttonRewind = $figure.select('.button--rewind');
+const $warning = $figure.select('.figure__warning');
 
 const videoEl = $video.node();
 
@@ -31,6 +33,7 @@ let canPlay = false;
 const tracked = [];
 
 function handleToggle() {
+  $warning.remove();
   if (canPlay) {
     const hidden = $buttonPlay.classed('is-hidden');
     $buttonPlay.classed('is-hidden', !hidden);
@@ -44,6 +47,12 @@ function handleCaption() {
   const on = $buttonCaption.classed('is-on');
   $buttonCaption.classed('is-on', !on);
   $figcaption.classed('is-visible', !on);
+}
+
+function handleRewind() {
+  if (canPlay && ticker) {
+    videoEl.currentTime = Math.max(0, videoEl.currentTime - 10);
+  }
 }
 
 function handleVolume() {
@@ -125,6 +134,7 @@ function init() {
   $video.on('click', handleToggle);
   $buttonVolume.on('click', handleVolume);
   $buttonCaption.on('click', handleCaption);
+  $buttonRewind.on('click', handleRewind);
 }
 
 export default { init, resize };
