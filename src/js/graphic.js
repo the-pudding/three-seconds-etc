@@ -112,8 +112,8 @@ function resize() {
 }
 
 function chooseVideo() {
-  const w = $main.node().offsetWidth;
-  const h = window.innerHeight;
+  const w = $figure.node().offsetWidth;
+  const h = window.innerHeight * THRESH;
   const ratio = w / h;
   const diffS = Math.abs(ASPECT.square - ratio);
   const diffV = Math.abs(ASPECT.vertical - ratio);
