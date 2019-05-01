@@ -68,7 +68,22 @@ figure
 			circle
 				stroke none
 				stroke-width 1px
-	
+		
+			&.is-hidden
+				hidden()
+		
+		p
+			margin 0
+			text-align center
+			set-type-size(small, false)
+			line-height 1
+			text-transform uppercase
+			font-weight 600
+			letter-spacing 0.02em
+			color $bg
+			background-color $fg
+			padding 1rem
+			
 	.button--pause
 		opacity 0
 

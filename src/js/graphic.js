@@ -14,6 +14,7 @@ const $buttonVolume = $figure.select('.button--volume');
 const $buttonCaption = $figure.select('.button--caption');
 const $buttonRewind = $figure.select('.button--rewind');
 const $warning = $figure.select('.figure__warning');
+const $loading = $buttonPlay.select('p');
 const $time = $figure.select('time');
 
 const videoEl = $video.node();
@@ -34,6 +35,7 @@ let canPlay = false;
 let size = null;
 let vw = 0;
 let vh = 0;
+let timeoutLoad = null;
 
 const tracked = [];
 
@@ -93,6 +95,13 @@ function handleTick() {
   else $time.text(`${min}:${sec}`);
 }
 
+function handleLoaded() {
+  if (timeoutLoad) timeoutLoad = null;
+  canPlay = true;
+  $loading.remove();
+  $buttonPlay.select('svg').classed('is-hidden', false);
+}
+
 function resize() {
   const fw = $figure.node().offsetWidth;
   const h = window.innerHeight;
@@ -130,9 +139,8 @@ function chooseVideo() {
     $figcaption.text('');
   });
 
-  videoEl.addEventListener('canplaythrough', () => {
-    canPlay = true;
-  });
+  videoEl.addEventListener('canplay', handleLoaded);
+  timeoutLoad = d3.timeout(handleLoaded, 7500);
 
   const src = `assets/videos/${size}${suffix}.mp4`;
   $video.attr('src', src);
